@@ -18,7 +18,7 @@ public:
 
 private:
     G4String DetectorName;
-    G4double Cells[200][200];
+    G4double** Cells;
 };
 
 #endif

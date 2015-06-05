@@ -21,72 +21,31 @@
 #include "G4RunManager.hh"
 #include "G4VSolid.hh"
 
-HaloDetectorConstruction* HaloDetectorConstruction::Instance = 0;
-
-HaloDetectorConstruction::HaloDetectorConstruction()
-{
-    Instance = this;
-    SlabThickness = 29.1*mm;
-}
-
-HaloDetectorConstruction* HaloDetectorConstruction::GetInstance()
-{
-    return Instance;
-}
-
 G4VPhysicalVolume* HaloDetectorConstruction::Construct()
 {
- // Cleanup old geometry
-    /*G4GeometryManager::GetInstance()->OpenGeometry();
+    // Cleanup old geometry
+    G4GeometryManager::GetInstance()->OpenGeometry();
     G4PhysicalVolumeStore::GetInstance()->Clean();
     G4LogicalVolumeStore::GetInstance()->Clean();
-    G4SolidStore::GetInstance()->Clean();*/
+    G4SolidStore::GetInstance()->Clean();
 
     this->InitializeMaterials();
 
     G4VisAttributes* visAttributes = new G4VisAttributes;
     visAttributes->SetForceWireframe(true);
 
- // World
+    // World
     G4Box* world = new G4Box("World", 3*m, 3*m, 3*m);
     G4LogicalVolume *worldLogic = new G4LogicalVolume(world, MaterialMap["Air"], "WorldLogic");
     G4VPhysicalVolume *worldPhys = new G4PVPlacement(0, G4ThreeVector(), worldLogic, "WorldPhys", 0, false, 0);
     worldLogic->SetVisAttributes(visAttributes);
 
-    G4RotationMatrix* matrix = new G4RotationMatrix;
-    matrix->setTheta(0.025*rad);
-
- // Material Slab
-    G4Box *materialSlab = new G4Box("MaterialSlab", 5*cm, 5*cm, SlabThickness);
-    MaterialLogic = new G4LogicalVolume(materialSlab, MaterialMap["PMMA"], "MaterialLogic");
-    new G4PVPlacement(matrix, G4ThreeVector(0, 0, -80.2*cm + SlabThickness), MaterialLogic, "MaterialSlab", worldLogic, 0, 0);
-
-    // Collimator
-    G4Tubs *collimator = new G4Tubs("Collimator", 1.5*mm, 15*cm, 5*cm, 0, 2*CLHEP::pi);
-    G4LogicalVolume *steelLogic = new G4LogicalVolume(collimator, MaterialMap["StainlessSteel"], "SteelLogic");
-    new G4PVPlacement(matrix, G4ThreeVector(0, 0, -80.2*cm - 5*cm), steelLogic, "Collimator", worldLogic, 0, 0);
-
- // Detector
-    G4Box *detector = new G4Box("DetectorBox", 6*cm, 6*cm, 0.25*cm);
-    G4LogicalVolume *detectorLogic = new G4LogicalVolume(detector, MaterialMap["Water"], "DetectorLogic");
-    new G4PVPlacement(0, G4ThreeVector(0, 0, 0.25*cm), detectorLogic, "DetectorPhys", worldLogic, 0, 0);
+    // Phantom
+    G4Box *phantom = new G4Box("Phantom", 20*cm, 20*cm, 25*cm);
+    G4LogicalVolume *phantomLogic = new G4LogicalVolume(phantom, MaterialMap["Water"], "PhantomLogic");
+    new G4PVPlacement(0, G4ThreeVector(0, 0, 25*cm), phantomLogic, "PhantomPhys", worldLogic, 0, 0);
 
     return worldPhys;
-}
-
-void HaloDetectorConstruction::SetSlabMaterial(G4String materialName)
-{
-    MaterialLogic->SetMaterial(MaterialMap[materialName]);
-}
-
-void HaloDetectorConstruction::SetSlabThickness(G4double thickness)
-{
-    SlabThickness = thickness;
-}
-
-void HaloDetectorConstruction::UpdateGeometry()
-{
-    G4RunManager::GetRunManager()->DefineWorldVolume(Construct());
 }
 
 void HaloDetectorConstruction::InitializeMaterials()

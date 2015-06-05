@@ -17,9 +17,7 @@ public:
     void ConstructSD();
 
 private:
-    G4LogicalVolume *GhostDetectorLog;
-    G4LogicalVolume *GhostXBoxLog;
-    G4LogicalVolume *GhostYBoxLog;
+    G4LogicalVolume *LogicGhostRhoTubsDetector;
 };
 #endif
 

@@ -21,7 +21,7 @@ public:
             if (innerRadius < 0)
                 innerRadius = 0;
 
-            G4double outerRadius = ((G4double)copyNo)*cm+detHalfDimension;
+            G4double outerRadius = ((G4double)copyNo)*cm+(0.375628575/2.0)*cm;
 
             cylinder.SetInnerRadius(innerRadius);
             cylinder.SetOuterRadius(outerRadius);

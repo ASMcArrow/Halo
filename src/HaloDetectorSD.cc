@@ -36,21 +36,13 @@ HaloDetectorSD::ProcessHits(G4Step* aStep, G4TouchableHistory* obsolete)
 
     G4int i = touchable->GetReplicaNumber(0);
     G4int j = touchable->GetReplicaNumber(1);
-
-    G4double area = pow(3.0/100.0, 2);
-
- /* G4double i = aStep->GetPostStepPoint()->GetPosition().getX();
-    G4double j = aStep->GetPostStepPoint()->GetPosition().getY();
-    G4double k = aStep->GetPostStepPoint()->GetPosition().getZ(); */
-
     G4double energyDeposit = aStep->GetTotalEnergyDeposit();
 
-    if(energyDeposit != 0)
+    if((energyDeposit != 0)&&(i >= 0 /*In case of blocked volume*/))
 	{
         HaloDetectorHit* detectorHit = new HaloDetectorHit();
         detectorHit->SetEdep(energyDeposit);
         detectorHit->SetPos(G4ThreeVector(i, j, 0));
-        detectorHit->SetArea(area);
         HitsCollection->insert(detectorHit);
 
         return true;

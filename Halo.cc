@@ -1,4 +1,4 @@
- //#undef G4MULTITHREADED
+// #undef G4MULTITHREADED
 
 #undef G4VIS_USE
 #undef G4UI_USE
@@ -43,7 +43,6 @@ int main(int argc,char** argv)
 #endif
 
     HaloDetectorConstruction* massWorld = new HaloDetectorConstruction;
-    // massWorld->SetSlabThickness(4.375*cm);
     massWorld->RegisterParallelWorld(new HaloParallelWorld("HaloParallelWorld"));
 
     runManager->SetUserInitialization(massWorld);
@@ -65,12 +64,7 @@ int main(int argc,char** argv)
     ui->SessionStart();
     delete ui;
 #else
-    std::clock_t start = clock();
-    double duration;
-
-    runManager->BeamOn(100000000);
-    duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
-    G4cout << "duration: " << duration << ' sec \n' << G4endl;
+    runManager->BeamOn(1000000);
 #endif
 
     delete runManager;

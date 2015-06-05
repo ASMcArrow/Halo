@@ -16,12 +16,6 @@
 HaloRunAction::HaloRunAction(const G4String detectorName) : G4UserRunAction()
 {
     DetectorName = detectorName;
-
-    for (int i = 0; i < 200; i++)
-    {
-        for (int j = 0; j < 200; j++)
-            Cells[i][j] = 0;
-    }
 }
 
 HaloRunAction::~HaloRunAction()
@@ -29,7 +23,7 @@ HaloRunAction::~HaloRunAction()
 
 G4Run* HaloRunAction::GenerateRun()
 {
-  return new HaloRun(DetectorName, 0);
+    return new HaloRun(DetectorName, 0);
 }
 
 void HaloRunAction::BeginOfRunAction(const G4Run* aRun)
@@ -42,27 +36,17 @@ void HaloRunAction::EndOfRunAction(const G4Run* aRun)
     if(!IsMaster()) return;
 
     HaloRun *haloRun = (HaloRun*)aRun;
-    for (int i = 0; i < 200; i++)
+    Cells = haloRun->GetCells();
+
+    std::ofstream haloFile("Halo_QGSP_BIC.txt");
+
+    for (G4int i = 0; i < 11; i++)
     {
-        for (int j = 0; j < 200; j++)
-            Cells[i][j] += haloRun->GetCells()[i][j];
+        haloFile << "\n";
+        for (int j = 0; j < 70; j++)
+            if (i!=0)
+                haloFile << i << " " << j*0.375628575 << " " << Cells[i][j]/((8*M_PI*i*pow((0.375628575/2.0),2))*1000000) << "\n";
+            else if (i==0)
+                haloFile << i << " " << j*0.375628575 << " " << Cells[i][j]/((M_PI*0.375628575*pow((0.375628575/2.0),2))*1000000) << "\n";
     }
-
-    std::ofstream mapFile("HaloPMMAUrban.txt");
-
-    for (G4int xBox = 0; xBox <= 200; xBox++)
-    {
-        mapFile << "\n";
-
-        // bloody gnuplot!
-        for (G4int yBox = 0; yBox <= 200; yBox++)
-        {
-            if ((yBox == 200)||(xBox == 200))
-            {
-                mapFile << (G4double)(xBox*12.0)/200.0 << " " << (G4double)(yBox*12.0/200.0) << " 0 \n";
-            }
-            else
-                mapFile << (G4double)(xBox*12.0)/200.0 << " " << (G4double)(yBox*12.0/200.0) << " " << Cells[yBox][xBox] << " \n";
-        }
-    }  
 }

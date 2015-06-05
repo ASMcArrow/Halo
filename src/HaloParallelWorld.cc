@@ -1,5 +1,6 @@
 #include "HaloParallelWorld.hh"
 #include "HaloDetectorSD.hh"
+#include "HaloCylinderParameterisation.hh"
 
 #include "G4LogicalVolume.hh"
 #include "G4VPhysicalVolume.hh"
@@ -9,6 +10,8 @@
 #include "G4PVReplica.hh"
 #include "G4VisAttributes.hh"
 #include "G4SDManager.hh"
+#include "G4PVDivision.hh"
+#include "G4PVParameterised.hh"
 
 HaloParallelWorld::HaloParallelWorld(G4String worldName)
     :G4VUserParallelWorld(worldName)
@@ -22,37 +25,35 @@ void HaloParallelWorld::Construct()
     G4VPhysicalVolume *ghostWorld = GetWorld();
     G4LogicalVolume *worldLog = ghostWorld->GetLogicalVolume();
 
- // Place volumes in the parallel world here
-    G4double detHalfDimension = 6.0*cm;
-    G4double nDivisions = 200.0;
-    G4double halfBoxWidth = (detHalfDimension/nDivisions);
+    // Place volumes in the parallel world here
+    G4double detHalfDimension = (0.375628575/2.0)*cm;
+    G4double nDivisions = 70.0;
 
- // The cylinder with concentric circles
-    G4Box *ghostDetector = new G4Box("GhostDetectorBox", detHalfDimension, detHalfDimension, 0.25*cm);
-    GhostDetectorLog = new G4LogicalVolume(ghostDetector, 0, "GhostDetectorLog");
-    new G4PVPlacement(0, G4ThreeVector(0, 0, 0.25*cm), GhostDetectorLog, "GhostDetectorPhys", worldLog, 0, 0);
+    G4Tubs *ghostTubsDetector = new G4Tubs("GhostTubsDetector", 0*cm, 10*cm+detHalfDimension, detHalfDimension*70.0, 0.*M_PI*rad, 2.*M_PI*rad);
+    G4LogicalVolume *ghostTubsDetectorLog = new G4LogicalVolume(ghostTubsDetector, 0, "GhostTubsDetectorLog");
+    new G4PVPlacement(0, G4ThreeVector(0, 0, detHalfDimension*70.0), ghostTubsDetectorLog, "GhostTubsDetectorPhys", worldLog, 0, 0);
+
+    G4VSolid* ghostZTubsDetector = new G4Tubs("GhostZTubsDetector", 0*cm, 10*cm+detHalfDimension, detHalfDimension, 0.*M_PI*rad, 2.*M_PI*rad);
+    G4LogicalVolume *logicGhostZTubsDetectorLog = new G4LogicalVolume(ghostZTubsDetector, 0, "GhostZTubsDetectorLog");
+    new G4PVReplica("GhostZTubsDetectorPhys", logicGhostZTubsDetectorLog, ghostTubsDetectorLog, kZAxis, 70, detHalfDimension*2);
+
+    // The cylinder with concentric circles and divided along the Z axis
+    G4VSolid* ghostRhoTubsDetector = new G4Tubs("GhostRhoTubsDetector", 0*cm, 10*cm+detHalfDimension, detHalfDimension, 0.*M_PI*rad, 2.*M_PI*rad);
+    LogicGhostRhoTubsDetector = new G4LogicalVolume(ghostRhoTubsDetector, 0, "LogicGhostRhoTubsDetector");
+    G4VPVParameterisation* cylinderParam = new HaloCylinderParameterisation();
+    new G4PVParameterised("Cylinders", LogicGhostRhoTubsDetector, logicGhostZTubsDetectorLog, kZAxis, 11, cylinderParam, true);
 
     G4VisAttributes* visAttributes = new G4VisAttributes;
-    visAttributes->SetColor(0,0,1);
-    GhostDetectorLog->SetVisAttributes(visAttributes);
-
- // Divide along X coordinate
-    G4Box* ghostXBox = new G4Box("ghostXBox", halfBoxWidth, detHalfDimension, 0.25*cm);
-    GhostXBoxLog = new G4LogicalVolume(ghostXBox, 0, "GhostXBoxLog");
-    new G4PVReplica("GhostXBoxPhys", GhostXBoxLog, GhostDetectorLog, kXAxis, nDivisions, halfBoxWidth*2, 0);
-
- // Divide along Y coordinate
-    G4Box* ghostYBox = new G4Box("ghostYBox", halfBoxWidth, halfBoxWidth, 0.25*cm);
-    GhostYBoxLog = new G4LogicalVolume(ghostYBox, 0, "GhostYBoxLog");
-    new G4PVReplica("GhostYBoxPhys", GhostYBoxLog, GhostXBoxLog, kYAxis, nDivisions, halfBoxWidth*2, 0);
+    visAttributes->SetColor(0,1,1);
+    LogicGhostRhoTubsDetector->SetVisAttributes(visAttributes);
 }
 
 void HaloParallelWorld::ConstructSD()
 {
     G4SDManager* sDman = G4SDManager::GetSDMpointer();
-    G4VSensitiveDetector* sDetector = new HaloDetectorSD("FilmDetector");
+    G4VSensitiveDetector* sDetector = new HaloDetectorSD("Detector");
     sDman->AddNewDetector(sDetector);
-    GhostYBoxLog->SetSensitiveDetector(sDetector);
+    LogicGhostRhoTubsDetector->SetSensitiveDetector(sDetector);
 }
 
 

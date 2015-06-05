@@ -11,11 +11,11 @@ HaloActionInitialization::~HaloActionInitialization()
 
 void HaloActionInitialization::BuildForMaster() const
 {
-    SetUserAction(new HaloRunAction("FilmDetector"));
+    SetUserAction(new HaloRunAction("Detector"));
 }
 
 void HaloActionInitialization::Build() const
 {
     SetUserAction(new HaloPrimaryGeneratorAction);
-    SetUserAction(new HaloRunAction("FilmDetector"));
+    SetUserAction(new HaloRunAction("Detector"));
 }
