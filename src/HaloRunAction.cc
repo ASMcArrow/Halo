@@ -38,15 +38,12 @@ void HaloRunAction::EndOfRunAction(const G4Run* aRun)
     HaloRun *haloRun = (HaloRun*)aRun;
     Cells = haloRun->GetCells();
 
-    std::ofstream haloFile("Halo_QGSP_BIC.txt");
+    std::ofstream haloFile("Halo_QGSP_BIC_HP.txt");
 
     for (G4int i = 0; i < 11; i++)
     {
         haloFile << "\n";
         for (int j = 0; j < 70; j++)
-            if (i!=0)
-                haloFile << i << " " << j*0.375628575 << " " << Cells[i][j]/((8*M_PI*i*pow((0.375628575/2.0),2))*1000000) << "\n";
-            else if (i==0)
-                haloFile << i << " " << j*0.375628575 << " " << Cells[i][j]/((M_PI*0.375628575*pow((0.375628575/2.0),2))*1000000) << "\n";
+            haloFile << i << " " << j*0.375628575 << " " << Cells[i][j]*6.24*pow(10,9)/10000000 << "\n";
     }
 }

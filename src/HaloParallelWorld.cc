@@ -12,6 +12,7 @@
 #include "G4SDManager.hh"
 #include "G4PVDivision.hh"
 #include "G4PVParameterised.hh"
+#include "G4PSDoseDeposit3D.hh"
 
 HaloParallelWorld::HaloParallelWorld(G4String worldName)
     :G4VUserParallelWorld(worldName)
@@ -33,15 +34,11 @@ void HaloParallelWorld::Construct()
     G4LogicalVolume *ghostTubsDetectorLog = new G4LogicalVolume(ghostTubsDetector, 0, "GhostTubsDetectorLog");
     new G4PVPlacement(0, G4ThreeVector(0, 0, detHalfDimension*70.0), ghostTubsDetectorLog, "GhostTubsDetectorPhys", worldLog, 0, 0);
 
-    G4VSolid* ghostZTubsDetector = new G4Tubs("GhostZTubsDetector", 0*cm, 10*cm+detHalfDimension, detHalfDimension, 0.*M_PI*rad, 2.*M_PI*rad);
-    G4LogicalVolume *logicGhostZTubsDetectorLog = new G4LogicalVolume(ghostZTubsDetector, 0, "GhostZTubsDetectorLog");
-    new G4PVReplica("GhostZTubsDetectorPhys", logicGhostZTubsDetectorLog, ghostTubsDetectorLog, kZAxis, 70, detHalfDimension*2);
-
     // The cylinder with concentric circles and divided along the Z axis
     G4VSolid* ghostRhoTubsDetector = new G4Tubs("GhostRhoTubsDetector", 0*cm, 10*cm+detHalfDimension, detHalfDimension, 0.*M_PI*rad, 2.*M_PI*rad);
     LogicGhostRhoTubsDetector = new G4LogicalVolume(ghostRhoTubsDetector, 0, "LogicGhostRhoTubsDetector");
-    G4VPVParameterisation* cylinderParam = new HaloCylinderParameterisation();
-    new G4PVParameterised("Cylinders", LogicGhostRhoTubsDetector, logicGhostZTubsDetectorLog, kZAxis, 11, cylinderParam, true);
+    G4VPVParameterisation* cylinderParam = new HaloCylinderParameterisation;
+    new G4PVParameterised("Cylinders", LogicGhostRhoTubsDetector, ghostTubsDetectorLog, kZAxis, 770, cylinderParam);
 
     G4VisAttributes* visAttributes = new G4VisAttributes;
     visAttributes->SetColor(0,1,1);
@@ -50,10 +47,13 @@ void HaloParallelWorld::Construct()
 
 void HaloParallelWorld::ConstructSD()
 {
-    G4SDManager* sDman = G4SDManager::GetSDMpointer();
-    G4VSensitiveDetector* sDetector = new HaloDetectorSD("Detector");
-    sDman->AddNewDetector(sDetector);
-    LogicGhostRhoTubsDetector->SetSensitiveDetector(sDetector);
+    G4SDManager::GetSDMpointer()->SetVerboseLevel(1);
+    G4MultiFunctionalDetector* detector = new G4MultiFunctionalDetector("Detector");
+    G4VPrimitiveScorer* doseSD = new G4PSDoseDeposit("Dose");
+   // doseSD->SetUnit("MeV/g");
+    detector->RegisterPrimitive(doseSD);
+    G4cout << "DOSE SCORER " << doseSD->GetUnit() << G4endl;
+    SetSensitiveDetector(LogicGhostRhoTubsDetector, detector);
 }
 
 

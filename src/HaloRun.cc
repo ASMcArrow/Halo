@@ -1,5 +1,6 @@
 #include "HaloRun.hh"
 #include "G4SDManager.hh"
+#include "G4THitsMap.hh"
 
 HaloRun::HaloRun(const G4String detectorName, G4bool verbose) : G4Run()
 {
@@ -28,22 +29,17 @@ void HaloRun::RecordEvent(const G4Event* aEvent)
     G4HCofThisEvent* HCE = aEvent->GetHCofThisEvent();
     if(HCE!=NULL)
     {
-        HaloDetectorHitsCollection* HC = (HaloDetectorHitsCollection*)(HCE -> GetHC(CollectionID));
+        G4THitsMap<G4double>* HC = static_cast<G4THitsMap<G4double>*>(HCE -> GetHC(CollectionID));
+        G4int i = 0;
+        G4int j = 0;
         if(HC!=NULL)
         {
-            //HaloDetectorHit *hit = 0;
-            for (G4int k = 0; k < HC->entries(); k++)
+            std::map<G4int, G4double*>::iterator it;
+            for ( it = HC->GetMap()->begin(); it != HC->GetMap()->end(); it++)
             {
-                HaloDetectorHit *hit = (HaloDetectorHit*)(HC->GetHit(k));
-                if (Verbose)
-                {
-                    G4cout << "HitsVector Initial: " << "k = "<< k << " Energy deposition is " << hit->GetEdep()
-                           << " Position is" << hit->GetPos()[0] << G4endl;
-                }
-
-                G4int i = hit->GetPos()[0];
-                G4int j = hit->GetPos()[1];
-                Cells[i][j] += hit->GetEdep();
+                i = (it->first)/70;
+                j = (it->first)%70;
+                Cells[i][j] += (*(it->second))/CLHEP::gray;
             }
         }
     }

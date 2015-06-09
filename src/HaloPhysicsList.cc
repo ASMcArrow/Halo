@@ -27,6 +27,11 @@
 #include "CLHEP/Units/SystemOfUnits.h"
 #include "G4WentzelVIModel.hh"
 
+#include "G4HadronPhysicsQGSP_BERT.hh"
+#include "G4HadronPhysicsQGSP_BERT_HP.hh"
+#include "G4HadronPhysicsQGSP_BIC.hh"
+#include "G4HadronPhysicsQGSP_BIC_HP.hh"
+#include "G4HadronPhysicsINCLXX.hh"
 using namespace CLHEP;
 
 HaloPhysicsList::HaloPhysicsList() : G4VModularPhysicsList()
@@ -38,7 +43,7 @@ HaloPhysicsList::HaloPhysicsList() : G4VModularPhysicsList()
   cutForPositron  = defaultCutValue;
 
   G4EmParameters* emParameters = G4EmParameters::Instance();
-  emParameters->SetMinEnergy(0*eV);
+  //emParameters->SetMinEnergy(0*eV);
   emParameters->SetMaxEnergy(200*MeV);
   emParameters->SetNumberOfBinsPerDecade(50);
 
@@ -56,7 +61,7 @@ HaloPhysicsList::HaloPhysicsList() : G4VModularPhysicsList()
 
   RegisterPhysics(new G4EmStandardPhysics_option4);
   //RegisterPhysics(new PhysListEmStandardSingleSc);
-  RegisterPhysics(new G4HadronPhysicsQGSP_BIC);
+  RegisterPhysics(new G4HadronPhysicsQGSP_BIC_HP);
   RegisterPhysics(new G4EmExtraPhysics);
   RegisterPhysics(new G4HadronElasticPhysics);
   RegisterPhysics(new G4StoppingPhysics);

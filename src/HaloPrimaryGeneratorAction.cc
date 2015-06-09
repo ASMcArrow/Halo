@@ -15,7 +15,7 @@ using namespace CLHEP;
 
 HaloPrimaryGeneratorAction::HaloPrimaryGeneratorAction()
 {
-    CircleSource = new G4SingleParticleSource();
+    CircleSource = new G4SingleParticleSource;
     CircleSource->SetParticleDefinition(G4Proton::Definition());
 
     G4SPSEneDistribution* energy = CircleSource->GetEneDist();
