@@ -4,8 +4,6 @@
 #include "G4Run.hh"
 #include "G4Event.hh"
 
-#include "HaloDetectorHit.hh"
-
 #include <vector>
 
 class HaloRun : public G4Run

@@ -1,5 +1,4 @@
 #include "HaloParallelWorld.hh"
-#include "HaloDetectorSD.hh"
 #include "HaloCylinderParameterisation.hh"
 
 #include "G4LogicalVolume.hh"
@@ -34,7 +33,6 @@ void HaloParallelWorld::Construct()
     G4LogicalVolume *ghostTubsDetectorLog = new G4LogicalVolume(ghostTubsDetector, 0, "GhostTubsDetectorLog");
     new G4PVPlacement(0, G4ThreeVector(0, 0, detHalfDimension*70.0), ghostTubsDetectorLog, "GhostTubsDetectorPhys", worldLog, 0, 0);
 
-    // The cylinder with concentric circles and divided along the Z axis
     G4VSolid* ghostRhoTubsDetector = new G4Tubs("GhostRhoTubsDetector", 0*cm, 10*cm+detHalfDimension, detHalfDimension, 0.*M_PI*rad, 2.*M_PI*rad);
     LogicGhostRhoTubsDetector = new G4LogicalVolume(ghostRhoTubsDetector, 0, "LogicGhostRhoTubsDetector");
     G4VPVParameterisation* cylinderParam = new HaloCylinderParameterisation;

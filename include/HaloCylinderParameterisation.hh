@@ -22,6 +22,12 @@ public:
 
         G4double outerRadius = ((G4double)row)*cm+detHalfDimension*cm;
 
+//        if (row == 3)
+//        {
+//           innerRadius =  ((G4double)row)*cm-detHalfDimension*cm-0.2*cm;
+//           outerRadius = ((G4double)row)*cm+detHalfDimension*cm-0.2*cm;
+//        }
+
         cylinder.SetInnerRadius(innerRadius);
         cylinder.SetOuterRadius(outerRadius);
     }

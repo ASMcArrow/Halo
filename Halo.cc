@@ -13,7 +13,7 @@
 #endif
 
 #ifdef G4VIS_USE
-#include "G4VisExecutive.hh"
+//#include "G4VisExecutive.hh"
 #endif
 
 #include "G4UImanager.hh"
@@ -27,6 +27,11 @@
 #include "HaloRunAction.hh"
 #include "HaloParallelWorld.hh"
 #include "HaloActionInitialization.hh"
+#include "G4ComponentBarNucleonNucleusXsc.hh"
+#include "G4ComponentGGHadronNucleusXsc.hh"
+#include "G4ComponentSAIDTotalXS.hh"
+#include "G4BGGNucleonInelasticXS.hh"
+#include "G4PreCompoundProton.hh"
 
 int main(int argc,char** argv)
 {
@@ -64,7 +69,7 @@ int main(int argc,char** argv)
     ui->SessionStart();
     delete ui;
 #else
-    runManager->BeamOn(10000000);
+    runManager->BeamOn(1000000);
 #endif
 
     delete runManager;

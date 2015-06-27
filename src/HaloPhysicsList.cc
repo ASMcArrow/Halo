@@ -32,41 +32,48 @@
 #include "G4HadronPhysicsQGSP_BIC.hh"
 #include "G4HadronPhysicsQGSP_BIC_HP.hh"
 #include "G4HadronPhysicsINCLXX.hh"
+#include "G4HadronicInteractionRegistry.hh"
+#include "G4CascadeInterface.hh"
+#include "G4AblaInterface.hh"
+#include "FTFP_BERT_TRV.hh"
+#include "G4HadronHElasticPhysics.hh"
+#include "G4HadronPhysicsFTFP_BERT_TRV.hh"
+
 using namespace CLHEP;
 
 HaloPhysicsList::HaloPhysicsList() : G4VModularPhysicsList()
 {
-  G4LossTableManager::Instance();
-  defaultCutValue = 1.*mm;
-  cutForGamma     = defaultCutValue;
-  cutForElectron  = defaultCutValue;
-  cutForPositron  = defaultCutValue;
+    G4LossTableManager::Instance();
+    defaultCutValue = 0.1*mm;
+    cutForGamma     = defaultCutValue;
+    cutForElectron  = defaultCutValue;
+    cutForPositron  = defaultCutValue;
 
-  G4EmParameters* emParameters = G4EmParameters::Instance();
-  //emParameters->SetMinEnergy(0*eV);
-  emParameters->SetMaxEnergy(200*MeV);
-  emParameters->SetNumberOfBinsPerDecade(50);
+    G4EmParameters* emParameters = G4EmParameters::Instance();
+    //emParameters->SetMinEnergy(0*eV);
+    emParameters->SetMaxEnergy(200*MeV);
+    emParameters->SetNumberOfBinsPerDecade(50);
 
-//  emParameters->SetMuHadLateralDisplacement(true);
-//  emParameters->SetLateralDisplacement(true);
+    //  emParameters->SetMuHadLateralDisplacement(true);
+    //  emParameters->SetLateralDisplacement(true);
 
-//  emParameters->SetMscStepLimitType(fUseDistanceToBoundary);
-//  emParameters->SetMscGeomFactor(2.5);
-//  emParameters->SetMscRangeFactor(0.04);
+    //  emParameters->SetMscStepLimitType(fUseDistanceToBoundary);
+    //  emParameters->SetMscGeomFactor(2.5);
+    //  emParameters->SetMscRangeFactor(0.04);
 
-  emParameters->SetApplyCuts(true);
-  emParameters->SetVerbose(true);
+    emParameters->SetApplyCuts(true);
+    emParameters->SetVerbose(true);
 
-  SetVerboseLevel(1);
+    SetVerboseLevel(1);
 
-  RegisterPhysics(new G4EmStandardPhysics_option4);
-  //RegisterPhysics(new PhysListEmStandardSingleSc);
-  RegisterPhysics(new G4HadronPhysicsQGSP_BIC_HP);
-  RegisterPhysics(new G4EmExtraPhysics);
-  RegisterPhysics(new G4HadronElasticPhysics);
-  RegisterPhysics(new G4StoppingPhysics);
-  RegisterPhysics(new G4IonBinaryCascadePhysics);
-  RegisterPhysics(new G4NeutronTrackingCut);
+    //RegisterPhysics(new G4EmStandardPhysics_option4);
+    RegisterPhysics(new PhysListEmStandardSingleSc);
+    RegisterPhysics(new G4HadronPhysicsQGSP_BIC_HP);
+    RegisterPhysics(new G4EmExtraPhysics);
+    RegisterPhysics(new G4HadronElasticPhysics);
+    RegisterPhysics(new G4StoppingPhysics);
+    RegisterPhysics(new G4IonBinaryCascadePhysics);
+    RegisterPhysics(new G4NeutronTrackingCut);
 }
 
 HaloPhysicsList::~HaloPhysicsList()
@@ -97,8 +104,9 @@ void HaloPhysicsList::AddParallelScoring()
 
 void HaloPhysicsList::SetCuts()
 {
- // set cut values for gamma at first and for e- second and next for e+,
- // because some processes for e+/e- need cut values for gamma
+    // set cut values for gamma at first and for e- second and next for e+,
+    // because some processes for e+/e- need cut values for gamma
+    SetCutsWithDefault();
     SetCutValue(cutForGamma, "gamma");
     SetCutValue(cutForElectron, "e-");
     SetCutValue(cutForPositron, "e+");

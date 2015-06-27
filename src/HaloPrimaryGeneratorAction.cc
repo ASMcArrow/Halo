@@ -10,6 +10,7 @@
 #include "G4Proton.hh"
 #include "globals.hh"
 #include "Randomize.hh"
+#include "G4GeneralParticleSource.hh"
 
 using namespace CLHEP;
 
@@ -20,7 +21,7 @@ HaloPrimaryGeneratorAction::HaloPrimaryGeneratorAction()
 
     G4SPSEneDistribution* energy = CircleSource->GetEneDist();
     energy->SetEnergyDisType("Gauss");
-    energy->SetBeamSigmaInE(1 *MeV);
+    energy->SetBeamSigmaInE(0.8 *MeV);
     energy->SetMonoEnergy(178.8 *MeV);
 
     G4SPSPosDistribution* position = CircleSource->GetPosDist();
@@ -32,7 +33,7 @@ HaloPrimaryGeneratorAction::HaloPrimaryGeneratorAction()
     angular->SetAngDistType("beam1d");
     angular->SetParticleMomentumDirection(G4ThreeVector(0.0,0.0,1.0));
     angular->DefineAngRefAxes("angref1", G4ThreeVector(-1.0,0.0,0.0));
-    angular->SetBeamSigmaInAngR(28/*31.55*/*mrad);
+    angular->SetBeamSigmaInAngR(31.55*mrad);
     CircleSource->SetNumberOfParticles(1);
 }
 

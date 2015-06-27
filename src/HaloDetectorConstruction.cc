@@ -1,9 +1,4 @@
-
-
-
-
 #include "HaloDetectorConstruction.hh"
-#include "HaloDetectorSD.hh"
 
 #include "G4Material.hh"
 #include "G4Box.hh"

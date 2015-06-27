@@ -123,7 +123,7 @@ PhysListEmStandardSingleSc::PhysListEmStandardSingleSc(G4int ver)
 {
     G4EmParameters* param = G4EmParameters::Instance();
     param->SetVerbose(verbose);
-    //param->SetMscGeomFactor(50);
+    param->SetMscGeomFactor(100);
     param->SetMinEnergy(100*eV);
     param->SetMaxEnergy(200*MeV);
     param->SetNumberOfBinsPerDecade(20);
@@ -408,8 +408,8 @@ void PhysListEmStandardSingleSc::ConstructProcess()
 
 
             G4hMultipleScattering* pmsc = new G4hMultipleScattering();
-            //pmsc->SetEmModel(new G4WentzelVIModel(),1);
-            pmsc->SetEmModel(new G4UrbanMscModel(),1);
+            pmsc->SetEmModel(new G4WentzelVIModel(),1);
+            //pmsc->SetEmModel(new G4UrbanMscModel(),1);
             pmsc->SetStepLimitType(fUseDistanceToBoundary);
             // pmsc->SetRangeFactor(0.04);
             pmsc->SetLateralDisplasmentFlag(true);
