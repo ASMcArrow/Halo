@@ -21,13 +21,13 @@ HaloPrimaryGeneratorAction::HaloPrimaryGeneratorAction()
 
     G4SPSEneDistribution* energy = CircleSource->GetEneDist();
     energy->SetEnergyDisType("Gauss");
-    energy->SetBeamSigmaInE(0.8 *MeV);
-    energy->SetMonoEnergy(178.8 *MeV);
+    energy->SetBeamSigmaInE(1.3 *MeV);
+    energy->SetMonoEnergy(179.0 *MeV);
 
     G4SPSPosDistribution* position = CircleSource->GetPosDist();
     position->SetPosDisType("Beam");
     position->SetBeamSigmaInR(0.5*cm);
-    position->SetCentreCoords(G4ThreeVector(0*m, 0*m, - 1*cm));
+    position->SetCentreCoords(G4ThreeVector(0*m, 0*m, - 1*mm));
 
     G4SPSAngDistribution* angular = CircleSource->GetAngDist();
     angular->SetAngDistType("beam1d");

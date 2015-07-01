@@ -1,7 +1,7 @@
 //#undef G4MULTITHREADED
 
-#undef G4VIS_USE
-#undef G4UI_USE
+//#undef G4VIS_USE
+//#undef G4UI_USE
 
 #include <cstdio>
 #include <ctime>
@@ -13,7 +13,7 @@
 #endif
 
 #ifdef G4VIS_USE
-//#include "G4VisExecutive.hh"
+#include "G4VisExecutive.hh"
 #endif
 
 #include "G4UImanager.hh"
@@ -69,7 +69,7 @@ int main(int argc,char** argv)
     ui->SessionStart();
     delete ui;
 #else
-    runManager->BeamOn(1000000);
+    runManager->BeamOn(100000);
 #endif
 
     delete runManager;
