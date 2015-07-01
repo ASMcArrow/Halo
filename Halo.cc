@@ -1,7 +1,7 @@
 //#undef G4MULTITHREADED
 
-//#undef G4VIS_USE
-//#undef G4UI_USE
+#undef G4VIS_USE
+#undef G4UI_USE
 
 #include <cstdio>
 #include <ctime>
