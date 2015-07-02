@@ -14,8 +14,8 @@ HaloRun::HaloRun(const G4String detectorName, G4bool verbose) : G4Run()
     Cells = new G4double*[11];
     for (int i = 0; i < 11; i++)
     {
-        Cells[i] = new G4double[70];
-        for (int j = 0; j < 70; j++)
+        Cells[i] = new G4double[250];
+        for (int j = 0; j < 250; j++)
             Cells[i][j] = 0;
     }
 }
@@ -37,8 +37,8 @@ void HaloRun::RecordEvent(const G4Event* aEvent)
             std::map<G4int, G4double*>::iterator it;
             for ( it = HC->GetMap()->begin(); it != HC->GetMap()->end(); it++)
             {
-                i = (it->first)/70;
-                j = (it->first)%70;
+                i = (it->first)/250;
+                j = (it->first)%250;
                 Cells[i][j] += (*(it->second))/CLHEP::gray;
             }
         }
@@ -51,7 +51,7 @@ void HaloRun::Merge(const G4Run * aRun)
 
     for (int i = 0; i < 11; i++)
     {
-        for (int j = 0; j < 70; j++)
+        for (int j = 0; j < 250; j++)
             Cells[i][j] += localRun->Cells[i][j];
     }
 

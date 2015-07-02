@@ -65,12 +65,12 @@ void HaloRunAction::EndOfRunAction(const G4Run* aRun)
     HaloRun *haloRun = (HaloRun*)aRun;
     Cells = haloRun->GetCells();
 
-    std::ofstream haloFile("final.txt");
+    std::ofstream haloFile("Zbin_8rad.txt");
 
     haloFile << "z/r 0.0 1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0 9.0 10.0 \n";
-    for (int j = 0; j < 70; j++)
+    for (int j = 0; j < 250; j++)
     {
-        haloFile << j*0.375628575 << " ";
+        haloFile << (G4double)(j/10.0) << " ";
 
         for (G4int i = 0; i < 11; i++)
         {

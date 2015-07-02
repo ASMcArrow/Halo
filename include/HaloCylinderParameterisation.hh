@@ -13,11 +13,11 @@ public:
 
     void ComputeDimensions (G4Tubs& cylinder, const G4int copyNo, const G4VPhysicalVolume* physVol) const
     {
-        G4int row = copyNo/70;
-        G4double detHalfDimension = (0.375628575/2.0);
+        G4int row = copyNo/250;
+        // G4double detHalfDimension = (0.375628575/2.0);
 
-        G4double innerRadius =  ((G4double)row)*cm-detHalfDimension*cm;
-        G4double outerRadius = ((G4double)row)*cm+detHalfDimension*cm;
+        G4double innerRadius =  ((G4double)row)*cm-0.5*cm;
+        G4double outerRadius = ((G4double)row)*cm+0.5*cm;
 
         if (innerRadius < 0)
         {
@@ -36,9 +36,9 @@ public:
 
     virtual void ComputeTransformation(const G4int copyNo, G4VPhysicalVolume *physVol ) const
     {
-        G4int column = copyNo%70;
-        G4double detHalfDimension = (0.375628575/2.0)*cm;
-        physVol->SetTranslation(G4ThreeVector(0, 0, -detHalfDimension*70.0+detHalfDimension+2.0*column*detHalfDimension));
+        G4int column = copyNo%250;
+        // G4double detHalfDimension = (0.375628575/2.0)*cm;
+        physVol->SetTranslation(G4ThreeVector(0, 0, -0.5*mm*250+0.5*mm+2.0*column*0.5*mm));
         physVol->SetRotation(0);
     }
 };
