@@ -11,11 +11,11 @@ HaloRun::HaloRun(const G4String detectorName, G4bool verbose) : G4Run()
     CollectionID = SDman->GetCollectionID(CollName);
     Verbose = verbose;
 
-    Cells = new G4double*[11];
-    for (int i = 0; i < 11; i++)
+    Cells = new G4double*[101];
+    for (int i = 0; i < 101; i++)
     {
-        Cells[i] = new G4double[250];
-        for (int j = 0; j < 250; j++)
+        Cells[i] = new G4double[3];
+        for (int j = 0; j < 3; j++)
             Cells[i][j] = 0;
     }
 }
@@ -37,8 +37,8 @@ void HaloRun::RecordEvent(const G4Event* aEvent)
             std::map<G4int, G4double*>::iterator it;
             for ( it = HC->GetMap()->begin(); it != HC->GetMap()->end(); it++)
             {
-                i = (it->first)/250;
-                j = (it->first)%250;
+                i = (it->first)/3;
+                j = (it->first)%3;
                 Cells[i][j] += (*(it->second))/CLHEP::gray;
             }
         }
@@ -49,9 +49,9 @@ void HaloRun::Merge(const G4Run * aRun)
 {
     const HaloRun *localRun = static_cast<const HaloRun*>(aRun);
 
-    for (int i = 0; i < 11; i++)
+    for (int i = 0; i < 101; i++)
     {
-        for (int j = 0; j < 250; j++)
+        for (int j = 0; j < 3; j++)
             Cells[i][j] += localRun->Cells[i][j];
     }
 
