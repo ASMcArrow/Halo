@@ -47,12 +47,12 @@ void HaloRunAction::BeginOfRunAction(const G4Run* aRun)
             if(!preco)
                 preco = new G4PreCompoundModel;
             G4cout << "Tuning Preco" << G4endl;
-//            preco->UseHETCEmission();
-//            preco->UseSICB();
+            //            preco->UseHETCEmission();
+            //            preco->UseSICB();
             preco->GetExcitationHandler()->SetMaxZForFermiBreakUp(10);
             preco->GetExcitationHandler()->SetMaxAForFermiBreakUp(18);
-//            G4Evaporation *evaporation = static_cast<G4Evaporation*>(preco->GetExcitationHandler()->GetEvaporation());
-//            evaporation->SetGEMChannel();
+            //            G4Evaporation *evaporation = static_cast<G4Evaporation*>(preco->GetExcitationHandler()->GetEvaporation());
+            //            evaporation->SetGEMChannel();
             theBICInterface->SetDeExcitation(preco);
         }
     }
@@ -67,14 +67,17 @@ void HaloRunAction::EndOfRunAction(const G4Run* aRun)
 
     std::ofstream haloFile("adjust.txt");
 
-    haloFile << "z/r 0.0 1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0 9.0 10.0 \n";
+    haloFile << "z/r 0.0 1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0 10.0 \n";
     for (int j = 0; j < 250; j++)
     {
         haloFile << (G4double)(j/10.0) << " ";
 
         for (G4int i = 0; i < 11; i++)
         {
-            haloFile << Cells[i][j]*6.24*pow(10,9)/10000000 << " ";
+            if (i == 9)
+                ;
+            else
+                haloFile << Cells[i][j]*6.24*pow(10,9)/100000 << " ";
         }
 
         haloFile << "\n";
