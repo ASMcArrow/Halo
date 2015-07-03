@@ -33,7 +33,7 @@ void HaloParallelWorld::Construct()
     G4LogicalVolume *ghostTubsDetectorLog = new G4LogicalVolume(ghostTubsDetector, 0, "GhostTubsDetectorLog");
     new G4PVPlacement(0, G4ThreeVector(0, 0, 12.5*cm), ghostTubsDetectorLog, "GhostTubsDetectorPhys", worldLog, 0, 0);
 
-    G4VSolid* ghostRhoTubsDetector = new G4Tubs("GhostRhoTubsDetector", 0*cm, 10*cm+0.5*mm, 0.5*cm, 0.*M_PI*rad, 2.*M_PI*rad);
+    G4VSolid* ghostRhoTubsDetector = new G4Tubs("GhostRhoTubsDetector", 0*cm, 10*cm+0.5*mm, 0.5*mm, 0.*M_PI*rad, 2.*M_PI*rad);
     LogicGhostRhoTubsDetector = new G4LogicalVolume(ghostRhoTubsDetector, 0, "LogicGhostRhoTubsDetector");
     G4VPVParameterisation* cylinderParam = new HaloCylinderParameterisation;
     new G4PVParameterised("Cylinders", LogicGhostRhoTubsDetector, ghostTubsDetectorLog, kZAxis, 303, cylinderParam);

@@ -67,7 +67,7 @@ void HaloRunAction::EndOfRunAction(const G4Run* aRun)
 
     G4double z[] = {2.0*cm, 12.0*cm, 21.0*cm};
 
-    std::ofstream haloFile("Rbin_8rad.txt");
+    std::ofstream haloFile("Rbin_fit2.txt");
 
     haloFile << "z/r ";
 

@@ -21,19 +21,19 @@ HaloPrimaryGeneratorAction::HaloPrimaryGeneratorAction()
 
     G4SPSEneDistribution* energy = CircleSource->GetEneDist();
     energy->SetEnergyDisType("Gauss");
-    energy->SetBeamSigmaInE(1.159 *MeV);
-    energy->SetMonoEnergy(178.0 *MeV);
+    energy->SetBeamSigmaInE(1.1557 *MeV);
+    energy->SetMonoEnergy(177.9 *MeV);
 
     G4SPSPosDistribution* position = CircleSource->GetPosDist();
     position->SetPosDisType("Beam");
-    position->SetBeamSigmaInR(0.5*cm);
+    position->SetBeamSigmaInR(0.48*cm);
     position->SetCentreCoords(G4ThreeVector(0*m, 0*m, - 1*mm));
 
     G4SPSAngDistribution* angular = CircleSource->GetAngDist();
     angular->SetAngDistType("beam1d");
     angular->SetParticleMomentumDirection(G4ThreeVector(0.0,0.0,1.0));
     angular->DefineAngRefAxes("angref1", G4ThreeVector(-1.0,0.0,0.0));
-    angular->SetBeamSigmaInAngR(31.55*mrad);
+    angular->SetBeamSigmaInAngR(19*mrad);
     CircleSource->SetNumberOfParticles(1);
 }
 
