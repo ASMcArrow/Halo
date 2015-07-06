@@ -67,7 +67,7 @@ HaloPhysicsList::HaloPhysicsList() : G4VModularPhysicsList()
     SetVerboseLevel(1);
 
     RegisterPhysics(new G4EmStandardPhysics_option3);
-    //RegisterPhysics(new PhysListEmStandardSingleSc);
+    // RegisterPhysics(new PhysListEmStandardSingleSc);
     RegisterPhysics(new G4HadronPhysicsQGSP_BIC_HP);
     RegisterPhysics(new G4EmExtraPhysics);
     RegisterPhysics(new G4HadronElasticPhysics);

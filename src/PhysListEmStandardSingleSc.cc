@@ -126,7 +126,7 @@ PhysListEmStandardSingleSc::PhysListEmStandardSingleSc(G4int ver)
     param->SetMscGeomFactor(100);
     param->SetMinEnergy(100*eV);
     param->SetMaxEnergy(200*MeV);
-    param->SetNumberOfBinsPerDecade(20);
+    param->SetNumberOfBinsPerDecade(50);
     param->ActivateAngularGeneratorForIonisation(true);
     //param->SetMuHadLateralDisplacement(true);
     //param->SetLatDisplacementBeyondSafety(true);
@@ -141,10 +141,10 @@ PhysListEmStandardSingleSc::PhysListEmStandardSingleSc(G4int ver,
 {
     G4EmParameters* param = G4EmParameters::Instance();
     param->SetVerbose(verbose);
+    param->SetMscGeomFactor(100);
     param->SetMinEnergy(100*eV);
     param->SetMaxEnergy(200*MeV);
-    //param->SetMscGeomFactor(50);
-    param->SetNumberOfBinsPerDecade(20);
+    param->SetNumberOfBinsPerDecade(50);
     param->ActivateAngularGeneratorForIonisation(true);
     // param->SetMuHadLateralDisplacement(true);
     //param->SetLatDisplacementBeyondSafety(true);
