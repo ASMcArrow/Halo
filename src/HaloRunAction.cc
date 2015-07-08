@@ -65,7 +65,7 @@ void HaloRunAction::EndOfRunAction(const G4Run* aRun)
     HaloRun *haloRun = (HaloRun*)aRun;
     Cells = haloRun->GetCells();
 
-    std::ofstream haloFile("EMCore_fit_Helastic.txt");
+    std::ofstream haloFile("EMCore_fit.txt");
 
     haloFile << "z/r 0.0 1.0 2.0 3.0 4.0 5.0 6.0 7.0 8.0 10.0 \n";
     for (int j = 0; j < 250; j++)
