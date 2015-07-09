@@ -73,7 +73,7 @@ void HaloRunAction::EndOfRunAction(const G4Run* aRun)
 
     for (G4int i = 0; i < 28; i++)
     {
-        haloFile << i*0.375628575 << " ";
+        haloFile << i*0.4 << " ";
     }
 
     haloFile << "\n";
@@ -84,7 +84,7 @@ void HaloRunAction::EndOfRunAction(const G4Run* aRun)
 
         for (G4int i = 0; i < 28; i++)
         {
-            haloFile << Cells[i][j]*6.24*pow(10,9)/1000000 << " ";
+            haloFile << Cells[i][j]*6.24*pow(10,9)/10000000 << " ";
         }
 
         haloFile << "\n";

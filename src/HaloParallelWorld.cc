@@ -26,7 +26,7 @@ void HaloParallelWorld::Construct()
     G4LogicalVolume *worldLog = ghostWorld->GetLogicalVolume();
 
     // Place volumes in the parallel world here
-    G4double detHalfDimension = (0.375628575/2.0)*cm;
+    G4double detHalfDimension = (0.4/2.0)*cm;
     // sG4double nDivisions = 250.0;
 
     G4Tubs *ghostTubsDetector = new G4Tubs("GhostTubsDetector", 0*cm, detHalfDimension*27*2+detHalfDimension, 12.5*cm, 0.*M_PI*rad, 2.*M_PI*rad);
