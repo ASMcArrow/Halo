@@ -26,7 +26,7 @@ HaloPrimaryGeneratorAction::HaloPrimaryGeneratorAction()
 
     G4SPSPosDistribution* position = CircleSource->GetPosDist();
     position->SetPosDisType("Beam");
-    position->SetBeamSigmaInR(0.48*cm);
+    position->SetBeamSigmaInR(0.54*cm);
     position->SetCentreCoords(G4ThreeVector(0*m, 0*m, - 1*mm));
 
     G4SPSAngDistribution* angular = CircleSource->GetAngDist();

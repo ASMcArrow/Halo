@@ -11,8 +11,8 @@ HaloRun::HaloRun(const G4String detectorName, G4bool verbose) : G4Run()
     CollectionID = SDman->GetCollectionID(CollName);
     Verbose = verbose;
 
-    Cells = new G4double*[101];
-    for (int i = 0; i < 101; i++)
+    Cells = new G4double*[28];
+    for (int i = 0; i < 28; i++)
     {
         Cells[i] = new G4double[3];
         for (int j = 0; j < 3; j++)
@@ -49,7 +49,7 @@ void HaloRun::Merge(const G4Run * aRun)
 {
     const HaloRun *localRun = static_cast<const HaloRun*>(aRun);
 
-    for (int i = 0; i < 101; i++)
+    for (int i = 0; i < 28; i++)
     {
         for (int j = 0; j < 3; j++)
             Cells[i][j] += localRun->Cells[i][j];

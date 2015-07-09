@@ -67,13 +67,13 @@ void HaloRunAction::EndOfRunAction(const G4Run* aRun)
 
     G4double z[] = {2.0*cm, 12.0*cm, 21.0*cm};
 
-    std::ofstream haloFile("Rbin_fit.txt");
+    std::ofstream haloFile("Rbin_error.txt");
 
     haloFile << "z/r ";
 
-    for (G4int i = 0; i <= 100; i++)
+    for (G4int i = 0; i < 28; i++)
     {
-        haloFile << i << " ";
+        haloFile << i*0.375628575 << " ";
     }
 
     haloFile << "\n";
@@ -82,9 +82,9 @@ void HaloRunAction::EndOfRunAction(const G4Run* aRun)
     {
         haloFile << z[j]/cm << " ";
 
-        for (G4int i = 0; i < 101; i++)
+        for (G4int i = 0; i < 28; i++)
         {
-            haloFile << Cells[i][j]*6.24*pow(10,9)/100000000 << " ";
+            haloFile << Cells[i][j]*6.24*pow(10,9)/1000000 << " ";
         }
 
         haloFile << "\n";
