@@ -15,20 +15,31 @@ public:
     {
         G4int row = copyNo/250;
         // G4double detHalfDimension = (0.375628575/2.0);
+        G4double innerRadius =  0;
+        G4double outerRadius = 0;
 
-        G4double innerRadius =  ((G4double)row)*cm-0.5*cm;
-        G4double outerRadius = ((G4double)row)*cm+0.5*cm;
-
-        if (innerRadius < 0)
+        if (row <= 4)
         {
-            innerRadius = 0;
-        }
 
-        //        if (row == 3)
-        //        {
-        //           innerRadius =  ((G4double)row)*cm-detHalfDimension*cm-0.2*cm;
-        //           outerRadius = ((G4double)row)*cm+detHalfDimension*cm-0.2*cm;
-        //        }
+            innerRadius =  ((G4double)row)*cm-0.5*mm;
+            outerRadius = ((G4double)row)*cm+0.5*mm;
+
+            if (innerRadius < 0)
+            {
+                innerRadius = 0;
+            }
+
+            //        if (row == 3)
+            //        {
+            //            innerRadius =  ((G4double)row)*cm-0.5*cm*cm-0.2*cm;
+            //            outerRadius = ((G4double)row)*cm+0.5*cm-0.2*cm;
+            //        }
+        }
+        else
+        {
+            innerRadius =  ((G4double)row)*cm-0.5*cm;
+            outerRadius = ((G4double)row)*cm+0.5*cm;
+        }
 
         cylinder.SetInnerRadius(innerRadius);
         cylinder.SetOuterRadius(outerRadius);

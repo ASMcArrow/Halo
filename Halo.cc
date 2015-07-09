@@ -1,4 +1,5 @@
 //#undef G4MULTITHREADED
+//#define G4VERBOSE
 
 #undef G4VIS_USE
 #undef G4UI_USE
@@ -69,7 +70,7 @@ int main(int argc,char** argv)
     ui->SessionStart();
     delete ui;
 #else
-    runManager->BeamOn(100000000);
+    runManager->BeamOn(10000000);
 #endif
 
     delete runManager;

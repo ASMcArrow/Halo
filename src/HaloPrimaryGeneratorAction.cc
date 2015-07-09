@@ -26,15 +26,15 @@ HaloPrimaryGeneratorAction::HaloPrimaryGeneratorAction()
 
     G4SPSPosDistribution* position = CircleSource->GetPosDist();
     position->SetPosDisType("Beam");
-    position->SetBeamSigmaInR(0.48*cm);
+    position->SetBeamSigmaInR(0.54*cm);
     position->SetCentreCoords(G4ThreeVector(0*m, 0*m, - 1*mm));
 
     G4SPSAngDistribution* angular = CircleSource->GetAngDist();
     angular->SetAngDistType("beam2d");
     angular->SetParticleMomentumDirection(G4ThreeVector(0.0,0.0,1.0));
     angular->DefineAngRefAxes("angref1", G4ThreeVector(-1.0,0.0,0.0));
-    angular->SetBeamSigmaInAngY(13.45*mrad);
-    angular->SetBeamSigmaInAngX(13.45*mrad);
+    angular->SetBeamSigmaInAngY(13*mrad);
+    angular->SetBeamSigmaInAngX(13*mrad);
     CircleSource->SetNumberOfParticles(1);
 }
 
